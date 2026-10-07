@@ -10,6 +10,6 @@ PresetManager:
       m_ManagedTypePPtr: {fileID: 0}
       m_ManagedTypeFallback: 
     second:
-    - m_Preset: {fileID: 2655988077585873504, guid: 98a0834420bff3b49adf2f2d15c797bc, type: 2}
+    - m_Preset: {fileID: 2655988077585873504, guid: 6290ac1edb7e5a64d915d0b5c4b253ef, type: 2}
       m_Filter: glob:"Assets/_Project/Art/**"
       m_Disabled: 0
