@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     // Tambahan dari modul untuk akses animasi
     public Vector2 Velocity => velocity;
     public Vector2 Facing { get; private set; } = Vector2.down;
-
+    public bool IsRunning => input != null && input.IsRunning;
     public void Construct(IMoveInput moveInput) => input = moveInput;
 
     void Update()
