@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cd2bb19ba0c7f840b1d1fa5c966f0ae, type: 3}
+  m_Name: Mon_Florazor
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  id: MON_009
+  displayName: Florazor
+  element: 2
+  frames:
+  - {fileID: 408032141, guid: 1ef5ec8e284f90340b7f6d327c590688, type: 3}
+  - {fileID: 1793504550, guid: 1ef5ec8e284f90340b7f6d327c590688, type: 3}
+  - {fileID: 1951132300, guid: 1ef5ec8e284f90340b7f6d327c590688, type: 3}
+  - {fileID: -1697540620, guid: 1ef5ec8e284f90340b7f6d327c590688, type: 3}
+  baseHP: 100
+  baseATK: 28
+  baseDEF: 16
+  baseSPD: 18
+  skillName: Daun Tajam
+  evolvesTo: {fileID: 0}
+  evolveLevel: 0

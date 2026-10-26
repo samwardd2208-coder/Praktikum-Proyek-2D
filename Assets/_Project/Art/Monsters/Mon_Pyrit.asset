@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cd2bb19ba0c7f840b1d1fa5c966f0ae, type: 3}
+  m_Name: Mon_Pyrit
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  id: MON_001
+  displayName: Pyrit
+  element: 0
+  frames:
+  - {fileID: 428114742, guid: f6e4b87c0fb3c604193b88b57ed7b196, type: 3}
+  - {fileID: 2041395452, guid: f6e4b87c0fb3c604193b88b57ed7b196, type: 3}
+  - {fileID: 1619638044, guid: f6e4b87c0fb3c604193b88b57ed7b196, type: 3}
+  - {fileID: 1813568490, guid: f6e4b87c0fb3c604193b88b57ed7b196, type: 3}
+  baseHP: 40
+  baseATK: 14
+  baseDEF: 8
+  baseSPD: 10
+  skillName: Semburan Api
+  evolvesTo: {fileID: 11400000, guid: bee656b5cc7593845b44bc5bbac6b089, type: 2}
+  evolveLevel: 5
