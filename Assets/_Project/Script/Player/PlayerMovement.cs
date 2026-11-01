@@ -1,13 +1,20 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 3.75f;
+    [SerializeField] private PlayerConfig config;
     [SerializeField] private Rigidbody2D rb;
-    private InputAction moveAction;
-    private Vector2 moveInput;
-    void Start() => moveAction =
-            InputSystem.actions.FindAction("Move");
-    void Update() => moveInput = moveAction.ReadValue<Vector2>();
-    void FixedUpdate() => rb.linearVelocity = moveInput * moveSpeed;
+    private IMoveInput input;
+    private Vector2 velocity;
+
+    public void Construct(IMoveInput moveInput) => input = moveInput;
+
+    void Update()
+    {
+        if (input == null) return;
+        float speed = input.IsRunning ? config.RunSpeed : config.WalkSpeed;
+        velocity = input.Move * speed;
+    }
+
+    void FixedUpdate() => rb.linearVelocity = velocity;
 }
