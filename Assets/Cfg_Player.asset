@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38240a805df403d488ca3f6a126dff83, type: 3}
   m_Name: Cfg_Player
   m_EditorClassIdentifier: Assembly-CSharp::PlayerConfig
-  walkSpeed: 3.75
-  runSpeed: 6
+  walkSpeed: 6
+  runSpeed: 15
