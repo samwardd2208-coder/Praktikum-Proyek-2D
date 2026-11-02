@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class WildMonster : MonoBehaviour
 {
     public StateMachine StateMachine { get; private set; }
@@ -46,10 +45,11 @@ public class WildMonster : MonoBehaviour
         // Mulai state awal monster (Wander)
         StateMachine.ChangeTo(WanderState);
     }
-
+    [SerializeField] private GameObject alert; // sprite UI_Alert
     private void Update()
     {
         // Jalankan Tick FSM setiap frame berdasarkan DeltaTime
         StateMachine.Tick(Time.deltaTime);
     }
+    
 }
