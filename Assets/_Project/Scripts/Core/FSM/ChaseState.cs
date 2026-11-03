@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class ChaseState : IState
@@ -14,24 +15,36 @@ public class ChaseState : IState
     public void Enter()
     {
         Debug.Log($"{monster.name} mendeteksi Player! Masuk ke Chase State (!)");
-        // Nyalakan tanda seru (!) di atas kepala monster jika ada
     }
 
     public void Tick(float deltaTime)
     {
-        // Logika perilaku Chase: mendekati Player dengan kecepatan 2.5 unit/s
-        // ... (implementasi movement chase)
+        // Pastikan Player tersedia
+        if (monster.Player == null) return;
 
-        // Cek syarat pindah ke Return: Jarak Player > 6.25
-        float distanceToPlayer = Vector2.Distance(monster.transform.position, monster.Player.position);
-        if (distanceToPlayer > 6.25f)
+        // Hitung jarak monster dengan Player
+        float distanceToPlayer = Vector2.Distance(
+            monster.transform.position,
+            monster.Player.position
+        );
+
+        // Jika Player terlalu jauh, kembali ke Home
+        if (distanceToPlayer > monster.giveUpRadius)
         {
             stateMachine.ChangeTo(monster.ReturnState);
+            return;
         }
+
+        // Gerakkan monster menuju Player
+        monster.transform.position = Vector2.MoveTowards(
+            monster.transform.position,
+            monster.Player.position,
+            monster.chaseSpeed * deltaTime
+        );
     }
 
     public void Exit()
     {
-        // Matikan tanda seru (!) saat berhenti mengejar
+        Debug.Log($"{monster.name} keluar dari Chase State");
     }
 }

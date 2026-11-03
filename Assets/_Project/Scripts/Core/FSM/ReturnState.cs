@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class ReturnState : IState
@@ -13,24 +14,41 @@ public class ReturnState : IState
 
     public void Enter()
     {
-        Debug.Log($"{monster.name} kehilangan jejak, masuk ke Return State (Pulang ke Home)");
+        Debug.Log($"{monster.name} masuk ke Return State (Pulang ke Home)");
     }
 
     public void Tick(float deltaTime)
     {
-        // Logika perilaku Return: berjalan kembali ke posisi Home
-        // ... (implementasi movement kembali ke Home)
+        // Gerakkan monster kembali ke posisi awal
+        Vector2 currentPosition = monster.transform.position;
 
-        // Cek syarat pindah ke Wander: Sampai di posisi Home
-        float distanceToHome = Vector2.Distance(monster.transform.position, monster.HomePosition);
-        if (distanceToHome <= 0.1f) // Toleransi sampai
+        Vector2 nextPosition = Vector2.MoveTowards(
+            currentPosition,
+            monster.HomePosition,
+            monster.wanderSpeed * deltaTime
+        );
+
+        monster.transform.position = new Vector3(
+            nextPosition.x,
+            nextPosition.y,
+            monster.transform.position.z
+        );
+
+        // Periksa apakah monster sudah sampai di Home
+        float distanceToHome = Vector2.Distance(
+            monster.transform.position,
+            monster.HomePosition
+        );
+
+        if (distanceToHome <= 0.1f)
         {
+            // Kembali ke Wander agar siap mengejar lagi
             stateMachine.ChangeTo(monster.WanderState);
         }
     }
 
     public void Exit()
     {
-        // Cleanup saat kembali ke posisi Home
+        Debug.Log($"{monster.name} keluar dari Return State");
     }
 }
