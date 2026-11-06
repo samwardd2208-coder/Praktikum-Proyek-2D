@@ -3,6 +3,19 @@ using UnityEngine;
 
 public class WildMonster : MonoBehaviour
 {
+    // Tambahkan field ini di bagian atas class
+    private BattleSession session;
+    private SceneFlow scenes;
+    private PlayerParty party;
+    private Transform playerTransform;
+    // Tambahkan method ini (ini yang bikin merah hilang di baris 17)
+    public void Construct(BattleSession session, SceneFlow scenes, PlayerParty party, Transform playerTransform)
+    {
+        this.session = session;
+        this.scenes = scenes;
+        this.party = party;
+        this.playerTransform = playerTransform;
+    }
     // ==============================
     // FSM
     // ==============================
