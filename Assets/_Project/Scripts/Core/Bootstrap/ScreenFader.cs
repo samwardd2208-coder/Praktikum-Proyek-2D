@@ -1,43 +1,33 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
+// Pasang di Canvas (Image hitam penuh layar) di Scn_Bootstrap.
+[RequireComponent(typeof(CanvasGroup))]
 public class ScreenFader : MonoBehaviour
 {
-    [SerializeField] private Image fadeImage;
-    [SerializeField] private float fadeDuration = 0.5f;
+    [SerializeField] private float duration = 0.4f;
+    private CanvasGroup group;
 
-    public IEnumerator FadeOut()
+    void Awake()
     {
-        float t = 0f;
-        Color c = fadeImage.color;
-        c.a = 0f;
-        fadeImage.color = c;
-        fadeImage.gameObject.SetActive(true);
-
-        while (t < fadeDuration)
-        {
-            t += Time.deltaTime;
-            c.a = Mathf.Clamp01(t / fadeDuration);
-            fadeImage.color = c;
-            yield return null;
-        }
+        group = GetComponent<CanvasGroup>();
+        group.alpha = 0f;
+        group.blocksRaycasts = false;
     }
 
-    public IEnumerator FadeIn()
-    {
-        float t = 0f;
-        Color c = fadeImage.color;
-        c.a = 1f;
-        fadeImage.color = c;
+    public IEnumerator FadeOut() => Fade(1f);
+    public IEnumerator FadeIn() => Fade(0f);
 
-        while (t < fadeDuration)
+    private IEnumerator Fade(float target)
+    {
+        group.blocksRaycasts = true;
+        float start = group.alpha;
+        for (float t = 0f; t < duration; t += Time.unscaledDeltaTime)
         {
-            t += Time.deltaTime;
-            c.a = 1f - Mathf.Clamp01(t / fadeDuration);
-            fadeImage.color = c;
+            group.alpha = Mathf.Lerp(start, target, t / duration);
             yield return null;
         }
-        fadeImage.gameObject.SetActive(false);
+        group.alpha = target;
+        group.blocksRaycasts = target > 0.5f;
     }
 }

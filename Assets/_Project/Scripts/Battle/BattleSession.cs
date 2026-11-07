@@ -12,27 +12,22 @@ public class BattleSession
     public MonsterInstance Enemy { get; private set; }
     public bool IsBoss { get; private set; }
     public bool IsSafe => Time.time < safeUntil;
-    
-    public event Action<BattleResult, bool> Ended;
+    public event Action<BattleResult, bool> Ended;   // (hasil, boss?)
 
-    public void Begin(MonsterInstance enemy, bool isBoss, Action<BattleResult> onFinish)
+    public void Begin(MonsterInstance enemy, bool isBoss, Action<BattleResult> callback)
     {
         Enemy = enemy;
         IsBoss = isBoss;
-        onFinished = onFinish;
+        onFinished = callback;
     }
 
     public void Finish(BattleResult result)
     {
         Action<BattleResult> callback = onFinished;
         bool wasBoss = IsBoss;
-        
-        onFinished = null; 
-        Enemy = null; 
-        IsBoss = false;
+        onFinished = null; Enemy = null; IsBoss = false;
         safeUntil = Time.time + SafeSeconds;
-        
-        callback?.Invoke(result);
-        Ended?.Invoke(result, wasBoss);
+        callback?.Invoke(result);          // monster yang memulai
+        Ended?.Invoke(result, wasBoss);    // dunia (P7: ending)
     }
 }

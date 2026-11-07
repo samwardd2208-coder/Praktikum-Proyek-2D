@@ -1,56 +1,106 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Fade, muat scene, panggil Install(). Bukan MonoBehaviour; coroutine dijalankan lewat "runner".
 public class SceneFlow
 {
-    private readonly GameBootstrap bootstrap;
+    private const string BattleScene = "Scn_Battle";
+
+    private readonly MonoBehaviour runner;
     private readonly ScreenFader fader;
     private readonly GameServices services;
-    private string currentAdditiveScene;
+    private Scene worldScene;
 
-    public SceneFlow(GameBootstrap bootstrap, ScreenFader fader, GameServices services)
+    public SceneFlow(MonoBehaviour runner, ScreenFader fader, GameServices services)
     {
-        this.bootstrap = bootstrap;
+        this.runner = runner;
         this.fader = fader;
         this.services = services;
     }
 
-    public IEnumerator GoTo(string sceneName)
+    // Pindah ke scene dunia (unload dunia lama kalau ada).
+    public void GoTo(string sceneName) => runner.StartCoroutine(GoToRoutine(sceneName));
+
+    // Mulai battle: simpan musuh di BattleSession, lalu muat Scn_Battle.
+    public void StartBattle(MonsterInstance enemy, bool isBoss, Action<BattleResult> onFinished)
     {
-        if (fader != null) yield return bootstrap.StartCoroutine(fader.FadeOut());
+        services.Battle.Begin(enemy, isBoss, onFinished);
+        runner.StartCoroutine(BattleRoutine());
+    }
 
-        // Unload scene additive sebelumnya jika ada
-        if (!string.IsNullOrEmpty(currentAdditiveScene))
+    // Dipanggil BattleInstaller (atau BattleSystem di P5) saat battle selesai.
+    public void EndBattle(BattleResult result) => runner.StartCoroutine(ReturnRoutine(result));
+
+    private IEnumerator GoToRoutine(string sceneName)
+    {
+        services.Input.Lock();
+        yield return fader.FadeOut();
+
+        if (worldScene.IsValid() && worldScene.isLoaded)
+            yield return SceneManager.UnloadSceneAsync(worldScene);
+
+        yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        worldScene = SceneManager.GetSceneByName(sceneName);
+        SceneManager.SetActiveScene(worldScene);
+        InstallScene(worldScene);
+
+        yield return fader.FadeIn();
+        services.Input.Unlock();
+    }
+
+    private IEnumerator BattleRoutine()
+    {
+        services.Input.Lock();
+        yield return fader.FadeOut();
+
+        // Dunia disembunyikan (tidak di-unload) supaya posisi pemain & monster tetap.
+        SetWorldActive(false);
+
+        yield return SceneManager.LoadSceneAsync(BattleScene, LoadSceneMode.Additive);
+        Scene battle = SceneManager.GetSceneByName(BattleScene);
+        SceneManager.SetActiveScene(battle);
+        InstallScene(battle);
+
+        yield return fader.FadeIn();
+    }
+
+    private IEnumerator ReturnRoutine(BattleResult result)
+    {
+        yield return fader.FadeOut();
+
+        Scene battle = SceneManager.GetSceneByName(BattleScene);
+        if (battle.IsValid() && battle.isLoaded)
+            yield return SceneManager.UnloadSceneAsync(battle);
+
+        SetWorldActive(true);
+        SceneManager.SetActiveScene(worldScene);
+
+        // Finish() dipanggil setelah dunia aktif lagi: callback monster + event Ended
+        // (kalah -> WorldInstaller memindah pemain).
+        services.Battle.Finish(result);
+
+        yield return fader.FadeIn();
+        services.Input.Unlock();
+    }
+
+    private void SetWorldActive(bool active)
+    {
+        foreach (GameObject root in worldScene.GetRootGameObjects())
+            root.SetActive(active);
+    }
+
+    private void InstallScene(Scene scene)
+    {
+        foreach (GameObject root in scene.GetRootGameObjects())
         {
-            AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(currentAdditiveScene);
-            if (unloadOp != null)
-            {
-                while (!unloadOp.isDone) yield return null;
-            }
+            SceneInstaller installer = root.GetComponent<SceneInstaller>();
+            if (installer == null) continue;
+            try { installer.Install(services); }
+            catch (System.Exception e) { Debug.LogException(e); }
+            return;
         }
-
-        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        if (op == null) yield break;
-
-        while (!op.isDone) yield return null;
-
-        Scene newScene = SceneManager.GetSceneByName(sceneName);
-        if (newScene.IsValid())
-        {
-            SceneManager.SetActiveScene(newScene);
-            foreach (var rootObj in newScene.GetRootGameObjects())
-            {
-                SceneInstaller installer = rootObj.GetComponent<SceneInstaller>();
-                if (installer != null)
-                {
-                    installer.Install(services);
-                    break;
-                }
-            }
-        }
-        currentAdditiveScene = sceneName;
-
-        if (fader != null) yield return bootstrap.StartCoroutine(fader.FadeIn());
+        Debug.LogWarning($"SceneFlow: tidak ada SceneInstaller di root scene {scene.name}");
     }
 }

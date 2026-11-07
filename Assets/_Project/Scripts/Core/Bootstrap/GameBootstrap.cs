@@ -1,6 +1,6 @@
-using System.Collections; // <-- PASTIKAN BARIS INI ADA DI ATAS
 using UnityEngine;
 
+// Composition Root: satu-satunya tempat "new" service.
 public class GameBootstrap : MonoBehaviour
 {
     [SerializeField] private string firstScene = "Scn_World";
@@ -22,11 +22,5 @@ public class GameBootstrap : MonoBehaviour
         services.Scenes = new SceneFlow(this, fader, services);
     }
 
-    // PERBAIKAN ADA DI SINI:
-    // 1. Ubah 'void' menjadi 'IEnumerator'
-    // 2. Tambahkan 'yield return' di depannya
-    IEnumerator Start()
-    {
-        yield return services.Scenes.GoTo(firstScene);
-    }
+    void Start() => services.Scenes.GoTo(firstScene);
 }

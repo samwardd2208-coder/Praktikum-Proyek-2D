@@ -1,22 +1,23 @@
 using UnityEngine;
 
+// Decorator: membungkus input asli, mengembalikan "nol" saat terkunci.
 public class InputGate : IMoveInput, IActionInput
 {
-    private readonly IMoveInput moveInput;
-    private readonly IActionInput actionInput;
-    private bool isLocked;
+    private readonly IMoveInput move;
+    private readonly IActionInput action;
+
+    public bool IsLocked { get; private set; }
 
     public InputGate(IMoveInput moveInput, IActionInput actionInput)
     {
-        this.moveInput = moveInput;
-        this.actionInput = actionInput;
+        move = moveInput;
+        action = actionInput;
     }
 
-    public void Lock() => isLocked = true;
-    public void Unlock() => isLocked = false;
-    public bool IsLocked => isLocked;
+    public void Lock() => IsLocked = true;
+    public void Unlock() => IsLocked = false;
 
-    public Vector2 Move => isLocked ? Vector2.zero : moveInput.Move;
-    public bool IsRunning => !isLocked && moveInput.IsRunning;
-    public bool InteractPressed => !isLocked && actionInput.InteractPressed;
+    public Vector2 Move => IsLocked ? Vector2.zero : move.Move;
+    public bool IsRunning => !IsLocked && move.IsRunning;
+    public bool InteractPressed => !IsLocked && action.InteractPressed;
 }
