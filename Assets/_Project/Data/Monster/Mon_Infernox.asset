@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f8b4af4bab164e4ca49508263413cb7, type: 3}
+  m_Name: Mon_Infernox
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  id: MON_003
+  displayName: Infernox
+  element: 0
+  frames:
+  - {fileID: 202445300, guid: a92d4a031a5aefd4ba9348fd9e4d46bf, type: 3}
+  - {fileID: 1168784933, guid: a92d4a031a5aefd4ba9348fd9e4d46bf, type: 3}
+  - {fileID: -745705674, guid: a92d4a031a5aefd4ba9348fd9e4d46bf, type: 3}
+  - {fileID: -1066939915, guid: a92d4a031a5aefd4ba9348fd9e4d46bf, type: 3}
+  baseHP: 120
+  baseATK: 42
+  baseDEF: 24
+  baseSPD: 30
+  skillName: Lava Hitam
+  evolvesTo: {fileID: 0}
+  evolveLevel: 0

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f8b4af4bab164e4ca49508263413cb7, type: 3}
+  m_Name: Mon_Pyrago
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  id: MON_002
+  displayName: Pyrago
+  element: 0
+  frames:
+  - {fileID: -745260835, guid: 645f2711f7c02a6498605f1f4fa6ee1b, type: 3}
+  - {fileID: 66591072, guid: 645f2711f7c02a6498605f1f4fa6ee1b, type: 3}
+  - {fileID: -1890483978, guid: 645f2711f7c02a6498605f1f4fa6ee1b, type: 3}
+  - {fileID: 2091256313, guid: 645f2711f7c02a6498605f1f4fa6ee1b, type: 3}
+  baseHP: 72
+  baseATK: 25
+  baseDEF: 14
+  baseSPD: 18
+  skillName: Hujan Api
+  evolvesTo: {fileID: 11400000, guid: d8b8219403fa56c469c89cd5dabd55f8, type: 2}
+  evolveLevel: 9

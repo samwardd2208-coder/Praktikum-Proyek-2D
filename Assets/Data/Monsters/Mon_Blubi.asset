@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f8b4af4bab164e4ca49508263413cb7, type: 3}
+  m_Name: Mon_Blubi
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  id: MON_004
+  displayName: Blubi
+  element: 1
+  frames:
+  - {fileID: 1404556698, guid: 8bfaa3f441ef0c2439b3738fcda3926d, type: 3}
+  - {fileID: -1356614226, guid: 8bfaa3f441ef0c2439b3738fcda3926d, type: 3}
+  - {fileID: -1773010299, guid: 8bfaa3f441ef0c2439b3738fcda3926d, type: 3}
+  - {fileID: -1180378145, guid: 8bfaa3f441ef0c2439b3738fcda3926d, type: 3}
+  baseHP: 48
+  baseATK: 10
+  baseDEF: 12
+  baseSPD: 8
+  skillName: Tembakan Air
+  evolvesTo: {fileID: 11400000, guid: 2a6483850a5f53241a239ee5e223c124, type: 2}
+  evolveLevel: 5
