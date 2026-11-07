@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2559239296050209199
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4201296844266836857, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201296844266836857, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201296844266836857, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201296844266836857, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201296844266836857, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201296844266836857, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201296844266836857, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201296844266836857, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201296844266836857, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201296844266836857, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6172679730508047845, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_Name
+      value: Pfb_Npc_Elder
+      objectReference: {fileID: 0}
+    - target: {fileID: 7624563967131603342, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -906093795963084720, guid: 1b76d6c61c0a5654f8daeddfb8ecf0e4, type: 3}
+    - target: {fileID: 8870380350151740079, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: faceUp
+      value: 
+      objectReference: {fileID: 6158156976392949412, guid: 1b76d6c61c0a5654f8daeddfb8ecf0e4, type: 3}
+    - target: {fileID: 8870380350151740079, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: npcName
+      value: Tetua Jepok
+      objectReference: {fileID: 0}
+    - target: {fileID: 8870380350151740079, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: faceDown
+      value: 
+      objectReference: {fileID: -906093795963084720, guid: 1b76d6c61c0a5654f8daeddfb8ecf0e4, type: 3}
+    - target: {fileID: 8870380350151740079, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: faceLeft
+      value: 
+      objectReference: {fileID: 2981871409832276786, guid: 1b76d6c61c0a5654f8daeddfb8ecf0e4, type: 3}
+    - target: {fileID: 8870380350151740079, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}
+      propertyPath: faceRight
+      value: 
+      objectReference: {fileID: -9113693712526435294, guid: 1b76d6c61c0a5654f8daeddfb8ecf0e4, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 57c4d3b878b5cc4468b8ba8f79ec6feb, type: 3}

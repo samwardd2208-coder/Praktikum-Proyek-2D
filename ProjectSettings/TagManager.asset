@@ -11,10 +11,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Interactable
+  - CameraBounds
+  - Wild
   - 
   - 
   - 
@@ -49,6 +49,9 @@ TagManager:
     locked: 0
   - name: Characters
     uniqueID: 44480041
+    locked: 0
+  - name: ForeGround
+    uniqueID: 134245461
     locked: 0
   m_RenderingLayers:
   - Default

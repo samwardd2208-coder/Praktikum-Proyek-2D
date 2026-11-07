@@ -13,7 +13,5 @@ public class InputSystemMoveInput : IMoveInput
     }
 
     public Vector2 Move => move.ReadValue<Vector2>();
-
-    public bool IsRunning =>
-        sprint != null && sprint.IsPressed();
+    public bool IsRunning => sprint != null && sprint.IsPressed();
 }
