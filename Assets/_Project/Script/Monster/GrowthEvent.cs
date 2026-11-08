@@ -1,8 +1,14 @@
-public enum GrowthEventType { LevelUp, Evolved }
+// Tambahkan enum ini di bagian atas file GrowthEvent.cs
+public enum GrowthEventType 
+{ 
+    LevelUp, 
+    Evolved 
+}
 
-// Catatan kejadian saat monster mendapat EXP (naik level / berevolusi).
 public class GrowthEvent
 {
+    public MonsterData From;
+    public MonsterData To;
     public GrowthEventType Type { get; }
     public string Message { get; }
 

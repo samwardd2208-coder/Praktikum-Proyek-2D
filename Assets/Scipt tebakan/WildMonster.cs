@@ -170,7 +170,7 @@ public class WildMonster : MonoBehaviour
     {
         inBattle = false;
 
-        if (result == BattleResult.Won)
+        if (result == BattleResult.Win)
         {
             Defeat();
             return;

@@ -14,6 +14,10 @@ public class BattleSession
     public bool IsActive => Enemy != null;
     public bool IsSafe => Time.time < safeUntil;
     public event Action<BattleResult, bool> Ended;  // (hasil, boss?)
+    
+    
+    public MonsterData EnemyData;
+    public int EnemyLevel;
 
     public void Begin(MonsterInstance enemy, bool isBoss, Action<BattleResult> finished)
     {

@@ -9,6 +9,7 @@ public class WorldInstaller : SceneInstaller
     [SerializeField] private PartnerFollower follower;
     [SerializeField] private Transform savePoint;          // Batu Simpan (tempat bangun setelah kalah)
     [SerializeField] private MonsterData debugStarter;     // sementara, dihapus P6
+    [SerializeField] private PartnerHud hud;               // P5: HUD partner + Ramuan
 
     private GameServices services;
 
@@ -28,18 +29,36 @@ public class WorldInstaller : SceneInstaller
         if (s.Party.Partner == null && debugStarter != null)
             s.Party.SetPartner(new MonsterInstance(debugStarter, 3));
 
+        // P5: HUD
+        if (hud != null)
+        {
+            hud.Bind(s.Party);
+            AreaZone.AreaEntered += hud.SetArea;            // area
+        }
+
         s.Battle.Ended += OnBattleEnded;
     }
-
+    void Update()
+    {
+        // P5: HUD dunia disembunyikan selama battle
+        if (hud != null && services != null)
+            hud.gameObject.SetActive(!services.Battle.IsActive);
+    }
     void OnDestroy()
     {
         if (services != null) services.Battle.Ended -= OnBattleEnded;
+        if (hud != null) AreaZone.AreaEntered -= hud.SetArea;   // area
     }
 
-    // Kalah -> pemain dipindah ke depan Batu Simpan. (Boss kalah -> ending, P7.)
+    // Kalah -> partner pulih penuh, pemain dipindah ke depan Batu Simpan. (Boss kalah -> ending, P7.)
     private void OnBattleEnded(BattleResult result, bool wasBoss)
     {
-        if (result == BattleResult.Lost && savePoint != null)
+        if (result != BattleResult.Lose) return;
+
+        MonsterInstance partner = services.Party.Partner;
+        if (partner != null) partner.Heal(partner.MaxHP);
+
+        if (savePoint != null)
             player.transform.position = savePoint.position + Vector3.down;
     }
 }
