@@ -21925,7 +21925,7 @@ MonoBehaviour:
   interactor: {fileID: 255990104}
   follower: {fileID: 2050214855}
   savePoint: {fileID: 564669148}
-  debugStarter: {fileID: 11400000, guid: 0a201ec819fb8f145bca26440a82f284, type: 2}
+  debugStarter: {fileID: 11400000, guid: 01c25f96a47a07f418fb120efd3dbdb4, type: 2}
   hud: {fileID: 371089331}
 --- !u!1001 &1904221955
 PrefabInstance:
@@ -22161,7 +22161,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
