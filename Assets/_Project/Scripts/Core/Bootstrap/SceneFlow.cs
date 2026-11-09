@@ -35,7 +35,7 @@ public class SceneFlow
 
     // Dipanggil BattleInstaller (atau BattleSystem di P5) saat battle selesai.
     public void EndBattle(BattleResult result) => runner.StartCoroutine(ReturnRoutine(result));
-
+    
     private IEnumerator GoToRoutine(string sceneName)
     {
         services.Input.Lock();

@@ -1,20 +1,24 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterInstance // Tambahkan ": IDamageable" jika interface-nya sudah ada
+public class MonsterInstance : IDamageable
 {
     public MonsterData Data { get; private set; }
     public int Level { get; private set; }
     public int CurrentHP { get; private set; }
-    public event Action Changed;                // P5: HUD
+    public event Action Changed;
 
     private float Scale => 1f + (Level - 1) * 0.1f;
-    public int MaxHP => Mathf.RoundToInt(Data.BaseHP * Scale) + Level * 2;
+    
+    // --- STATISTIK MONSTER ---
+    public int MaxHP  => Mathf.RoundToInt(Data.BaseHP * Scale) + Level * 2;
     public int Attack => Mathf.RoundToInt(Data.BaseATK * Scale);
+    public int Defense => Mathf.RoundToInt(Data.BaseDEF * Scale); // TAMBAHAN (Biar DamageFormula tidak merah)
+    public int Speed  => Mathf.RoundToInt(Data.BaseSPD * Scale);  // TAMBAHAN (Untuk urutan giliran)
     public int ExpToNext => Level * 10;
 
-    // Constructor untuk inisialisasi monster
-    public MonsterInstance(MonsterData data, int level = 1)
+    public MonsterInstance(MonsterData data, int level)
     {
         Data = data;
         Level = level;
@@ -27,26 +31,33 @@ public class MonsterInstance // Tambahkan ": IDamageable" jika interface-nya sud
         Changed?.Invoke();
     }
 
-    public void GainExp(int amount)
+    // --- TAMBAHAN: Untuk memulihkan HP (Ramuan/Istirahat) ---
+    public int Heal(int amount)
     {
-        // Tambah exp atau langsung simulasi naik level berdasarkan jumlah exp
-        // Sesuai modul: jika diberi 100 EXP pada Lv 4 (ExpToNext = 40), maka bisa naik beberapa level
-        int remainingExp = amount;
-    
-        while (remainingExp >= ExpToNext)
-        {
-            remainingExp -= ExpToNext;
-            Level++;
-            Debug.Log($"{Data.DisplayName} naik ke Lv {Level}!");
+        int before = CurrentHP;
+        CurrentHP = Mathf.Min(MaxHP, CurrentHP + amount);
+        return CurrentHP - before;
+    }
 
-            // Cek apakah level memenuhi syarat evolusi
-            // Pastikan MonsterData punya properti EvolveLevel dan EvolvesTo
-            if (Data != null && Data.EvolvesTo != null && Level >= 5) // Sesuaikan syarat level evolusi jika ada di MonsterData
-            {
-                string oldName = Data.DisplayName;
-                Data = Data.EvolvesTo;
-                Debug.Log($"{oldName} berevolusi menjadi {Data.DisplayName}!");
-            }
+    // --- TAMBAHAN: Untuk naik level dan evolusi ---
+    public IEnumerable<GrowthEvent> GainExp(int amount)
+    {   
+        Level++;
+        CurrentHP = MaxHP;
+        
+        var events = new List<GrowthEvent>();
+        events.Add(new GrowthEvent(GrowthType.LevelUp, this, this, 
+            $"{Data.DisplayName} naik ke Lv {Level}!"));
+
+        if (Data.EvolvesTo != null && Level >= Data.EvolveLevel)
+        {
+            var oldData = Data;
+            Data = Data.EvolvesTo;
+            events.Add(new GrowthEvent(GrowthType.Evolve, 
+                new MonsterInstance(oldData, Level - 1), this,
+                $"{oldData.DisplayName} berevolusi menjadi {Data.DisplayName}!"));
         }
+
+        return events;
     }
 }

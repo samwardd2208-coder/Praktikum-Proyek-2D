@@ -1,23 +1,39 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
-// Versi P4: tampilkan musuh dari BattleSession, menang otomatis setelah 2 detik.
-// P5 mengganti isinya dengan BattleSystem penuh.
 public class BattleInstaller : SceneInstaller
 {
-    [SerializeField] private SpriteRenderer enemyRenderer;
-    [SerializeField] private float autoWinSeconds = 2f;
+    [SerializeField] private BattleView view;
+    [SerializeField] private Sprite forestBackground;
+    [SerializeField] private Sprite caveBackground;
+    [SerializeField] private SpriteRenderer background;
 
     public override void Install(GameServices s)
     {
-        MonsterInstance enemy = s.Battle.Enemy;
-        if (enemy != null) enemyRenderer.sprite = enemy.Data.Frames[0];
-        StartCoroutine(AutoWin(s));
-    }
+        // 1. Ganti latar belakang battle
+        if (background != null)
+        {
+            background.sprite = s.Battle.IsBoss ? caveBackground : forestBackground;
+        }
 
-    private IEnumerator AutoWin(GameServices s)
-    {
-        yield return new WaitForSeconds(autoWinSeconds);
-        s.Scenes.EndBattle(BattleResult.Win);
+        // 2. Inisialisasi BattleSystem
+        var battle = new BattleSystem();
+        battle.Construct(s.Party, s.Battle, s.Scenes);
+        
+        // 3. Hubungkan dengan View
+        new BattlePresenter(battle, view);
+        
+        // 4. PENTING: Dengarkan event 'Ended' untuk kembali ke dunia
+        battle.Ended += (result) =>
+        {
+            // Saat battle selesai (Menang/Kalah/Kabur), kembali ke Scn_World
+            if (s.Scenes is SceneFlow sceneFlow)
+            {
+                sceneFlow.EndBattle(result);
+            }
+        };
+        
+        // 5. Mulai battle
+        StartCoroutine(battle.Begin());
     }
 }

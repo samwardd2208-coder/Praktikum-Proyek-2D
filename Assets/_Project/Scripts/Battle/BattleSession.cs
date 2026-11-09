@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public enum BattleResult { Win, Lose, Flee }
+public enum BattleResult { None, Win, Lose, Flee }
 
 public class BattleSession
 {

@@ -1,0 +1,1 @@
+public enum GrowthType { LevelUp, Evolve }
