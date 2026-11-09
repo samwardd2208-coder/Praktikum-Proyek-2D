@@ -12,6 +12,7 @@ public class SceneFlow
     private readonly ScreenFader fader;
     private readonly GameServices services;
     private Scene worldScene;
+    private bool battleActive;
 
     public SceneFlow(MonoBehaviour runner, ScreenFader fader, GameServices services)
     {
@@ -26,6 +27,8 @@ public class SceneFlow
     // Mulai battle: simpan musuh di BattleSession, lalu muat Scn_Battle.
     public void StartBattle(MonsterInstance enemy, bool isBoss, Action<BattleResult> onFinished)
     {
+        if (battleActive) return;          // cegah dobel
+        battleActive = true;
         services.Battle.Begin(enemy, isBoss, onFinished);
         runner.StartCoroutine(BattleRoutine());
     }
@@ -83,6 +86,7 @@ public class SceneFlow
 
         yield return fader.FadeIn();
         services.Input.Unlock();
+        battleActive = false; 
     }
 
     private void SetWorldActive(bool active)
