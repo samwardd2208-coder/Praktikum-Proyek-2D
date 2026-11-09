@@ -7,12 +7,25 @@ using UnityEngine.SceneManagement;
 // tidak pernah dibongkar saat battle, sehingga posisi pemain tetap sama.
 public class SceneFlow
 {
+    public const string TitleScene = "Scn_Title";
+    public const string WorldScene = "Scn_World";
     public const string BattleScene = "Scn_Battle";
 
     private readonly MonoBehaviour runner;   // tempat menjalankan coroutine
     private readonly ScreenFader fader;
     private readonly GameServices services;
-    private string worldScene;
+
+    private string contentScene;             // scene konten aktif (Title atau World)
+    private bool transitioning;
+
+    // true = jangan fade-in otomatis setelah scene baru siap (dipakai narasi pembuka).
+    public bool HoldFade;
+
+    public string CurrentScene => contentScene;
+    public bool InBattle { get; private set; }
+
+    // PauseMenu memakai ini: sibuk saat pindah scene atau saat battle.
+    public bool IsBusy => transitioning || InBattle;
 
     public SceneFlow(MonoBehaviour runner, ScreenFader fader, GameServices services)
     {
@@ -21,25 +34,47 @@ public class SceneFlow
         this.services = services;
     }
 
-    // ---- Pindah ke scene dunia (dipakai GameBootstrap) ----
-    public void GoTo(string sceneName) => runner.StartCoroutine(GoToRoutine(sceneName));
+    // ---- Lepas layar hitam yang ditahan HoldFade ----
+    public IEnumerator ReleaseFade()
+    {
+        HoldFade = false;
+        if (fader != null) yield return fader.FadeIn();
+    }
+
+    // ---- Pindah ke scene konten (Title / World) ----
+    public void GoTo(string sceneName)
+    {
+        if (transitioning) return;
+        runner.StartCoroutine(GoToRoutine(sceneName));
+    }
 
     private IEnumerator GoToRoutine(string sceneName)
     {
+        transitioning = true;
+        HoldFade = false;
         services.Input.Lock();
         if (fader != null) yield return fader.FadeOut();
 
-        if (!string.IsNullOrEmpty(worldScene))
+        if (!string.IsNullOrEmpty(contentScene))
         {
-            AsyncOperation unload = SceneManager.UnloadSceneAsync(worldScene);
+            AsyncOperation unload = SceneManager.UnloadSceneAsync(contentScene);
             if (unload != null) yield return unload;
         }
 
         yield return LoadAndInstall(sceneName);
-        worldScene = sceneName;
+        contentScene = sceneName;
 
-        services.Input.Unlock();
-        if (fader != null) yield return fader.FadeIn();
+        // Jika Install() memulai dialog (narasi pembuka), biarkan DialogueRunner
+        // yang membuka kunci setelah dialog selesai.
+        bool dialogueBusy = services.Dialogue != null && services.Dialogue.IsRunning;
+services.Input.Unlock();                                   // lepas kunci milik SceneFlow
+if (dialogueBusy && !services.Input.IsLocked)
+    services.Input.Lock();                                 // kunci milik dialog tetap ada
+
+        transitioning = false;
+
+        // Install() boleh menyalakan HoldFade; fade-in ditahan sampai ReleaseFade().
+        if (!HoldFade && fader != null) yield return fader.FadeIn();
     }
 
     // ---- Battle: Kunci -> fade out -> muat Scn_Battle additive -> Install() ----
@@ -53,6 +88,7 @@ public class SceneFlow
 
         bool ok = false;
         yield return LoadAndInstall(BattleScene, success => ok = success);
+        InBattle = ok;
 
         if (!ok)
         {
@@ -73,9 +109,12 @@ public class SceneFlow
 
         AsyncOperation unload = SceneManager.UnloadSceneAsync(BattleScene);
         if (unload != null) yield return unload;
+        InBattle = false;
 
-        Scene world = SceneManager.GetSceneByName(worldScene);
+        Scene world = SceneManager.GetSceneByName(contentScene);
         if (world.IsValid()) SceneManager.SetActiveScene(world);
+
+        if (services.Audio != null) services.Audio.ResumeWorldMusic();   // musik dunia kembali
 
         services.Battle.Finish(result);   // callback monster + event Ended + mulai waktu aman
         services.Input.Unlock();

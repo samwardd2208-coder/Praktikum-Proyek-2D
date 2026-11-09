@@ -594,6 +594,9 @@ MonoBehaviour:
   caveBackground: {fileID: 21300000, guid: a234b4a48abc3f246a85e9c70b1766a6, type: 3}
   battle: {fileID: 355673835}
   view: {fileID: 758563237}
+  bgmBattle: {fileID: 8300000, guid: 645e040ad6fe4594292e396fab805c78, type: 3}
+  bgmBoss: {fileID: 8300000, guid: 4d3ad33809317c24782b03e682bfa141, type: 3}
+  battleAudio: {fileID: 759583136}
 --- !u!4 &308743625
 Transform:
   m_ObjectHideFlags: 0
@@ -872,6 +875,9 @@ MonoBehaviour:
   caveBackground: {fileID: 0}
   battle: {fileID: 0}
   view: {fileID: 0}
+  bgmBattle: {fileID: 0}
+  bgmBoss: {fileID: 0}
+  battleAudio: {fileID: 0}
 --- !u!114 &355673834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1474,6 +1480,57 @@ MonoBehaviour:
   - {fileID: 1350477632}
   ringCenter: {x: 88, y: 100}
   charsPerSecond: 55
+--- !u!1 &759583135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 759583137}
+  - component: {fileID: 759583136}
+  m_Layer: 0
+  m_Name: BattleAudio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &759583136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759583135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a2b032fe6e11b46b985f7e18fb3741, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleAudio
+  hit: {fileID: 8300000, guid: bc2d0382a0b42d244bfaff8aa72455b2, type: 3}
+  hitCritical: {fileID: 8300000, guid: 76d1b6aa56168d3489557a7c43f392c7, type: 3}
+  miss: {fileID: 8300000, guid: b53b6f1e980f4aa4dbd420ecc971d17e, type: 3}
+  levelUp: {fileID: 8300000, guid: ea4cddeeade916a469a4a8dea9a83804, type: 3}
+  evolve: {fileID: 8300000, guid: e3abc08ecdb527f449b95398bf5b46d7, type: 3}
+  victory: {fileID: 8300000, guid: 0077f22459e1fa74fa248acbcece0bd2, type: 3}
+  faint: {fileID: 8300000, guid: ffbcf768903aca54abbc9d527fef6169, type: 3}
+--- !u!4 &759583137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759583135}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 320.7116, y: 488.11417, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832829721
 GameObject:
   m_ObjectHideFlags: 0
@@ -3316,3 +3373,4 @@ SceneRoots:
   - {fileID: 758563235}
   - {fileID: 355673832}
   - {fileID: 839674199}
+  - {fileID: 759583137}

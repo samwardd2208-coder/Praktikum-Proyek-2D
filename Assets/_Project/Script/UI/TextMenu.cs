@@ -17,6 +17,9 @@ public class TextMenu : MonoBehaviour
 
     public int Selected { get; private set; }
 
+    /// <summary>P6: diisi GameBootstrap supaya semua menu ikut bersuara.</summary>
+    public static AudioService Audio;
+
     string[] labels = new string[0];
     bool[] usable = new bool[0];
     int count;
@@ -128,6 +131,7 @@ public class TextMenu : MonoBehaviour
         if (target < 0 || target >= count) return;
 
         Selected = target;
+        if (Audio != null) Audio.PlayUiMove();
         Redraw();
     }
 
@@ -143,13 +147,19 @@ public class TextMenu : MonoBehaviour
     {
         if (index < 0 || index >= count || index == Selected) return;
         Selected = index;            // pointer memindah ▶
+        if (Audio != null) Audio.PlayUiMove();
         Redraw();
     }
 
     void Pick(int index)
     {
         if (index < 0 || index >= count) return;
-        if (!usable[index]) return;  // redup: tidak bisa dipilih (bunyi batal ditambah di P6)
+        if (!usable[index])          // redup: tidak bisa dipilih, bunyi batal
+        {
+            if (Audio != null) Audio.PlayUiCancel();
+            return;
+        }
+        if (Audio != null) Audio.PlayUiConfirm();
         Picked?.Invoke(index);
     }
 

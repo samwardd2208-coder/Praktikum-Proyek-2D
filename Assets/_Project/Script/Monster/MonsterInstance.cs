@@ -8,7 +8,8 @@ public class MonsterInstance : IDamageable
     public int Level { get; private set; }
     public int Exp { get; private set; }
     public int CurrentHP { get; private set; }
-    public event Action Changed;               // P5: HUD
+    public event Action Changed;  
+                 // P5: HUD
 
     public MonsterInstance(MonsterData data, int level)
     {
@@ -43,6 +44,12 @@ public class MonsterInstance : IDamageable
         CurrentHP = MaxHP;
         Changed?.Invoke();
     }
+    public void Restore(int exp, int hp)
+{
+    Exp = exp;
+    CurrentHP = Mathf.Max(0, hp);
+    Changed?.Invoke();      // HUD ikut refresh
+}
 
     public List<GrowthEvent> GainExp(int amount)
     {

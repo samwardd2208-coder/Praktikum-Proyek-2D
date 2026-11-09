@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // Monster liar di dunia. Perilaku diatur FSM (WildStates).
@@ -42,6 +43,8 @@ public class WildMonster : MonoBehaviour
     private BattleSession session;
     private SceneFlow scenes;
     private PlayerParty party;
+    private DialogueRunner dialogue;   // P6: auman boss (boleh null)
+    private StoryFlags flags;          // P6: boss yang sudah kalah tidak muncul lagi (boleh null)
 
     private Vector2 home;
     private Vector2 desiredVelocity;
@@ -80,12 +83,24 @@ public class WildMonster : MonoBehaviour
                           && party != null && Target != null;
 
     // ---------- Siklus hidup ----------
-    public void Construct(BattleSession battle, SceneFlow sceneFlow, PlayerParty playerParty, Transform target)
+    // dialogue dan flags opsional, jadi pemanggilan lama Construct(4 argumen) tetap valid.
+    public void Construct(BattleSession battle, SceneFlow sceneFlow, PlayerParty playerParty, Transform target,
+                          DialogueRunner dialogueRunner = null, StoryFlags storyFlags = null)
     {
         session = battle;
         scenes = sceneFlow;
         party = playerParty;
         Target = target;
+        dialogue = dialogueRunner;
+        flags = storyFlags;
+
+        // P6: boss yang sudah dikalahkan (mis. setelah Lanjutkan) tidak muncul lagi.
+        if (isBoss && flags != null && flags.Has(StoryFlags.BossDefeated))
+        {
+            defeated = true;
+            respawnAt = float.PositiveInfinity;
+            SetVisible(false);
+        }
     }
 
     void Awake()
@@ -161,8 +176,29 @@ public class WildMonster : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         if (alert != null) alert.SetActive(false);
 
+        // P6: boss mengaum dulu lewat DialogueRunner, baru battle dimulai.
+        if (isBoss && dialogue != null) StartCoroutine(RoarThenBattle());
+        else BeginBattleNow();
+    }
+
+    private void BeginBattleNow()
+    {
         session.Begin(Monster, isBoss, OnBattleFinished);   // 1. Begin: musuh + level
         scenes.StartBattle();                               // 2. Kunci input, fade, Scn_Battle
+    }
+
+    private IEnumerator RoarThenBattle()
+    {
+        dialogue.Run(Roar());
+        yield return null;
+        while (dialogue.IsRunning) yield return null;
+        BeginBattleNow();
+    }
+
+    private IEnumerator Roar()
+    {
+        yield return dialogue.Say("",
+            $"GRRRAAAH!! {Monster.Data.DisplayName} menghalangi jalan, percikan listrik memenuhi gua!");
     }
 
     // Dipanggil BattleSession.Finish (callback khusus monster yang memulai battle).
@@ -184,7 +220,8 @@ public class WildMonster : MonoBehaviour
     private void Defeat()
     {
         defeated = true;
-        respawnAt = Time.time + respawnDelay;
+        // P6: boss tidak respawn (ending ada di P7). Monster biasa respawn seperti biasa.
+        respawnAt = isBoss ? float.PositiveInfinity : Time.time + respawnDelay;
         desiredVelocity = Vector2.zero;
         SetVisible(false);
     }
