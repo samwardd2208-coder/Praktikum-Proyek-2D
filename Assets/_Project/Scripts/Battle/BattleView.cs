@@ -80,6 +80,59 @@ public class BattleView : MonoBehaviour
 
     public void PlayEvolveRings(float duration)
     {
-        // Animasi cincin evolusi
+        if (rings == null || rings.Length == 0) return;
+    
+        StartCoroutine(AnimateRings(duration));
+    }
+
+    private IEnumerator AnimateRings(float duration)
+    {
+    // Aktifkan semua cincin
+        for (int i = 0; i < rings.Length; i++)
+        {
+            if (rings[i] != null)
+            {
+                rings[i].gameObject.SetActive(true);
+                rings[i].color = new Color(1, 0.78f, 0.1f, 0); // emas, alpha 0
+                rings[i].rectTransform.localScale = Vector3.one * 0.5f;
+            }
+        }
+    
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float progress = elapsed / duration; // 0 sampai 1
+        
+            for (int i = 0; i < rings.Length; i++)
+            {
+                if (rings[i] == null) continue;
+            
+                // Setiap cincin mulai dengan delay berbeda
+                float ringDelay = i * 0.15f;
+                float ringProgress = Mathf.Clamp01((progress - ringDelay / duration) * 1.5f);
+            
+                // Scale membesar dari 0.5x ke 4x
+                float scale = 0.5f + ringProgress * 3.5f;
+                rings[i].rectTransform.localScale = Vector3.one * scale;
+            
+                // Alpha: muncul lalu memudar
+                float alpha = ringProgress < 0.3f 
+                ? ringProgress / 0.3f 
+                : 1f - (ringProgress - 0.3f) / 0.7f;
+                alpha = Mathf.Clamp01(alpha);
+            
+                rings[i].color = new Color(1, 0.78f, 0.1f, alpha);
+            }
+        
+            yield return null;
+        }
+    
+        // Sembunyikan cincin setelah selesai
+        for (int i = 0; i < rings.Length; i++)
+        {
+            if (rings[i] != null)
+                rings[i].gameObject.SetActive(false);
+        }
     }
 }

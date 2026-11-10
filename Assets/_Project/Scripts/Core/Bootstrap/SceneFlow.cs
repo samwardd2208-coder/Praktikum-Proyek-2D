@@ -34,7 +34,24 @@ public class SceneFlow
     }
 
     // Dipanggil BattleInstaller (atau BattleSystem di P5) saat battle selesai.
-    public void EndBattle(BattleResult result) => runner.StartCoroutine(ReturnRoutine(result));
+    public void EndBattle(BattleResult result)
+    {
+        // Jika kalah, pindahkan player ke Batu Simpan
+        if (result == BattleResult.Lose)
+        {
+            GameObject batuSimpan = GameObject.Find("Batu Simpan");
+            if (batuSimpan != null)
+            {
+                PlayerPrefs.SetFloat("LoseSpawnX", batuSimpan.transform.position.x);
+                PlayerPrefs.SetFloat("LoseSpawnY", batuSimpan.transform.position.y);
+                PlayerPrefs.SetInt("LostBattle", 1);
+                PlayerPrefs.Save();
+            }
+        }
+        
+        // GANTI DENGAN INI:
+        runner.StartCoroutine(ReturnRoutine(result));
+    }
     
     private IEnumerator GoToRoutine(string sceneName)
     {

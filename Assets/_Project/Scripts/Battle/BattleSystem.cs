@@ -156,6 +156,18 @@ public class BattleSystem
         Fainted?.Invoke(Player);
         yield return new WaitForSeconds(0.6f);
         yield return Say($"{Player.Data.DisplayName} pingsan...", 0.8f);
+    
+        // TAMBAHKAN INI: Pesan kedua sesuai modul
+        yield return Say("Kamu berlari kembali ke desa.", 0.9f);
+    
+        // TAMBAHKAN INI: Pulihkan HP partner dan reset ramuan
+        Player.Heal(Player.MaxHP); // HP penuh lagi
+        if (Party != null)
+        {
+            // Reset ramuan ke 8 (sesuai modul slide 39)
+            // Atau bisa juga tidak di-reset, tergantung desain game kamu
+            // Party.AddPotions(8 - Party.Potions); 
+        }
     }
 
     public void ChooseAction(BattleAction action)
