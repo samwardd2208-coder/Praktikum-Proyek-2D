@@ -14,6 +14,10 @@ public class SceneFlow
     private Scene worldScene;
     private bool battleActive;
 
+    // true = layar tetap hitam setelah scene dimuat (dipakai narasi pembuka).
+    // Fade-in dilanjutkan oleh ReleaseFade().
+    public bool HoldFade { get; set; } = false;
+
     public SceneFlow(MonoBehaviour runner, ScreenFader fader, GameServices services)
     {
         this.runner = runner;
@@ -36,7 +40,7 @@ public class SceneFlow
     // Dipanggil BattleInstaller (atau BattleSystem di P5) saat battle selesai.
     public void EndBattle(BattleResult result)
     {
-        // Jika kalah, pindahkan player ke Batu Simpan
+        // Jika kalah, simpan posisi Batu Simpan sebagai titik kembali
         if (result == BattleResult.Lose)
         {
             GameObject batuSimpan = GameObject.Find("Batu Simpan");
@@ -48,11 +52,19 @@ public class SceneFlow
                 PlayerPrefs.Save();
             }
         }
-        
-        // GANTI DENGAN INI:
+
         runner.StartCoroutine(ReturnRoutine(result));
     }
-    
+
+    // Dipanggil setelah narasi pembuka selesai: layar hitam memudar ke dunia, lalu input dibuka.
+    public IEnumerator ReleaseFade()
+    {
+        HoldFade = false;
+        if (fader != null)
+            yield return fader.FadeIn();
+        services.Input.Unlock();
+    }
+
     private IEnumerator GoToRoutine(string sceneName)
     {
         services.Input.Lock();
@@ -64,7 +76,11 @@ public class SceneFlow
         yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         worldScene = SceneManager.GetSceneByName(sceneName);
         SceneManager.SetActiveScene(worldScene);
+
+        // Install() boleh mengaktifkan HoldFade (WorldInstaller saat intro belum pernah dilihat)
         InstallScene(worldScene);
+
+        if (HoldFade) yield break;         // layar tetap hitam; ReleaseFade() yang melanjutkan
 
         yield return fader.FadeIn();
         services.Input.Unlock();
@@ -103,7 +119,7 @@ public class SceneFlow
 
         yield return fader.FadeIn();
         services.Input.Unlock();
-        battleActive = false; 
+        battleActive = false;
     }
 
     private void SetWorldActive(bool active)

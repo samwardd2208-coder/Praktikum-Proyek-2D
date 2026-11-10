@@ -76,8 +76,31 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1238994059, guid: 6cf7c1838e98bd04fa4a13ae5da60c64, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5753611135731190870, guid: 79b9aa48a7711314397fd46ff369f029, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4026472721061438133, guid: 79b9aa48a7711314397fd46ff369f029, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4764935426656025419}
   m_SourcePrefab: {fileID: 100100000, guid: 79b9aa48a7711314397fd46ff369f029, type: 3}
+--- !u!1 &5040497751664528371 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4026472721061438133, guid: 79b9aa48a7711314397fd46ff369f029, type: 3}
+  m_PrefabInstance: {fileID: 8220079103667366214}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4764935426656025419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5040497751664528371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab4cc0bc5b297549a01d6ec7c2ea617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GuardNpc
+  npcName: Penjaga
+  asidePosition: {x: 22.5, y: 10.4}

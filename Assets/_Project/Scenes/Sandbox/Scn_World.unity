@@ -149,6 +149,7 @@ RectTransform:
   m_Children:
   - {fileID: 1810203169}
   - {fileID: 1771387740}
+  - {fileID: 304672107}
   m_Father: {fileID: 337345330}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -595,6 +596,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3589795117439708723, guid: 435243d169fa14a41b26e43ad785c041, type: 3}
+      propertyPath: toast
+      value: 
+      objectReference: {fileID: 304672110}
     - target: {fileID: 5438980256068079615, guid: 435243d169fa14a41b26e43ad785c041, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -954,6 +959,98 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 27.455282, y: 9.363686}
   m_EdgeRadius: 0
+--- !u!1 &304672106
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 304672107}
+  - component: {fileID: 304672109}
+  - component: {fileID: 304672108}
+  - component: {fileID: 304672110}
+  m_Layer: 5
+  m_Name: ToastPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &304672107
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304672106}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1715042557}
+  m_Father: {fileID: 65460724}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -60}
+  m_SizeDelta: {x: 300, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &304672108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304672106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e92b2b8f18ca7b6488f7af612a4b6f73, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &304672109
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304672106}
+  m_CullTransparentMesh: 1
+--- !u!114 &304672110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304672106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 889f705f1888cd843b63307f5c2211ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToastView
+  panel: {fileID: 304672106}
+  textLabel: {fileID: 1715042558}
+  duration: 3
 --- !u!1 &337345326
 GameObject:
   m_ObjectHideFlags: 0
@@ -2694,6 +2791,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1548635559671486363, guid: 658895187a39be647847eea772281ade, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1610875846}
+    - targetCorrespondingSourceObject: {fileID: 1548635559671486363, guid: 658895187a39be647847eea772281ade, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1610875851}
   m_SourcePrefab: {fileID: 100100000, guid: 658895187a39be647847eea772281ade, type: 3}
 --- !u!1 &959322197
 GameObject:
@@ -2921,6 +3021,35 @@ SpriteRenderer:
 Transform:
   m_CorrespondingSourceObject: {fileID: 862044748608544267, guid: 50f66dd824365574487dd18b7a42b53e, type: 3}
   m_PrefabInstance: {fileID: 1070556032}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1130569739 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5040497751664528371, guid: 3a739732d227d514f820245f3ee358b7, type: 3}
+  m_PrefabInstance: {fileID: 1374469286}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1130569744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130569739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab4cc0bc5b297549a01d6ec7c2ea617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GuardNpc
+  npcName: Penjaga
+  body: {fileID: 1130569747}
+  faceDown: {fileID: 1238994059, guid: 6cf7c1838e98bd04fa4a13ae5da60c64, type: 3}
+  faceLeft: {fileID: 2129738699, guid: 6cf7c1838e98bd04fa4a13ae5da60c64, type: 3}
+  faceRight: {fileID: 592477606, guid: 6cf7c1838e98bd04fa4a13ae5da60c64, type: 3}
+  faceUp: {fileID: -571836478, guid: 6cf7c1838e98bd04fa4a13ae5da60c64, type: 3}
+  asidePosition: {x: 5.75, y: 8.46}
+--- !u!212 &1130569747 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 666688143063488738, guid: 3a739732d227d514f820245f3ee358b7, type: 3}
+  m_PrefabInstance: {fileID: 1374469286}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1136823666
 GameObject:
@@ -3682,11 +3811,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3788743073145260196, guid: 3a739732d227d514f820245f3ee358b7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.94
+      value: 4.04
       objectReference: {fileID: 0}
     - target: {fileID: 3788743073145260196, guid: 3a739732d227d514f820245f3ee358b7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.38
+      value: 8.36
       objectReference: {fileID: 0}
     - target: {fileID: 3788743073145260196, guid: 3a739732d227d514f820245f3ee358b7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3731,7 +3860,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5040497751664528371, guid: 3a739732d227d514f820245f3ee358b7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1130569744}
   m_SourcePrefab: {fileID: 100100000, guid: 3a739732d227d514f820245f3ee358b7, type: 3}
 --- !u!1 &1391895720
 GameObject:
@@ -4261,6 +4393,35 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1610875851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610875841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e027fec5b9a4064cb2fe9397b27858a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StarterGiver
+  npcName: Tetua Rahmat
+  body: {fileID: 1610875853}
+  faceDown: {fileID: -1476673130, guid: a044d4a4a442f4a4d8f80cdee9274f17, type: 3}
+  faceLeft: {fileID: 1014211843, guid: a044d4a4a442f4a4d8f80cdee9274f17, type: 3}
+  faceRight: {fileID: -977987810, guid: a044d4a4a442f4a4d8f80cdee9274f17, type: 3}
+  faceUp: {fileID: -1854120830, guid: a044d4a4a442f4a4d8f80cdee9274f17, type: 3}
+  starters:
+  - {fileID: 11400000, guid: 567ca3d13e6a6104c83665225be0c541, type: 2}
+  - {fileID: 11400000, guid: bcf07be20e9228d47bcefda6952c0ee0, type: 2}
+  - {fileID: 11400000, guid: 6866cb85e892e2741a0181879986ab7b, type: 2}
+  starterLevel: 3
+  toast: {fileID: 0}
+--- !u!212 &1610875853 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6471153130399384714, guid: 658895187a39be647847eea772281ade, type: 3}
+  m_PrefabInstance: {fileID: 945113885}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1660596643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4422,6 +4583,85 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 862044748608544267, guid: 50f66dd824365574487dd18b7a42b53e, type: 3}
   m_PrefabInstance: {fileID: 1660596643}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1715042556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1715042557}
+  - component: {fileID: 1715042559}
+  - component: {fileID: 1715042558}
+  m_Layer: 5
+  m_Name: ToastText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1715042557
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715042556}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 304672107}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -20, y: -10}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1715042558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715042556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.105882354, g: 0.08627451, b: 0.21960784, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Pesan Toast
+--- !u!222 &1715042559
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715042556}
+  m_CullTransparentMesh: 1
 --- !u!1 &1770632703
 GameObject:
   m_ObjectHideFlags: 0
@@ -4486,7 +4726,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.15625
+  orthographic size: 5.3541665
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4511,7 +4751,7 @@ Transform:
   m_GameObject: {fileID: 1770632703}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.007134907, y: 0.88794, z: -10}
+  m_LocalPosition: {x: 0.0066204686, y: 0.88793, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
