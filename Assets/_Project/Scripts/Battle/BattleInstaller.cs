@@ -3,10 +3,16 @@ using System.Collections;
 
 public class BattleInstaller : SceneInstaller
 {
+    [Header("UI & Latar")]
     [SerializeField] private BattleView view;
     [SerializeField] private Sprite forestBackground;
     [SerializeField] private Sprite caveBackground;
     [SerializeField] private SpriteRenderer background;
+
+    // BARU: Slot untuk BGM Battle
+    [Header("Audio BGM Battle")]
+    [SerializeField] private AudioClip battleMusic;
+    [SerializeField] private AudioClip bossMusic;
 
     public override void Install(GameServices s)
     {
@@ -16,14 +22,24 @@ public class BattleInstaller : SceneInstaller
             background.sprite = s.Battle.IsBoss ? caveBackground : forestBackground;
         }
 
-        // 2. Inisialisasi BattleSystem
+        // 2. BARU: Putar BGM battle (boss atau biasa)
+        if (s.Audio != null)
+        {
+            AudioClip clip = s.Battle.IsBoss ? bossMusic : battleMusic;
+            if (clip != null) 
+            {
+                s.Audio.PlayBattleMusic(clip);
+            }
+        }
+
+        // 3. Inisialisasi BattleSystem
         var battle = new BattleSystem();
         battle.Construct(s.Party, s.Battle, s.Scenes);
-        
-        // 3. Hubungkan dengan View
+
+        // 4. Hubungkan dengan View
         new BattlePresenter(battle, view);
-        
-        // 4. PENTING: Dengarkan event 'Ended' untuk kembali ke dunia
+
+        // 5. PENTING: Dengarkan event 'Ended' untuk kembali ke dunia
         battle.Ended += (result) =>
         {
             // Saat battle selesai (Menang/Kalah/Kabur), kembali ke Scn_World
@@ -32,8 +48,8 @@ public class BattleInstaller : SceneInstaller
                 sceneFlow.EndBattle(result);
             }
         };
-        
-        // 5. Mulai battle
+
+        // 6. Mulai battle
         StartCoroutine(battle.Begin());
     }
 }

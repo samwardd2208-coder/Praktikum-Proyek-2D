@@ -120,6 +120,7 @@ public class SceneFlow
         yield return fader.FadeIn();
         services.Input.Unlock();
         battleActive = false;
+        if (services.Audio != null) services.Audio.ResumeWorldMusic();
     }
 
     private void SetWorldActive(bool active)

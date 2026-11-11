@@ -12,12 +12,14 @@ public abstract class Npc : MonoBehaviour, IInteractable
     protected DialogueRunner dialogue;
     protected StoryFlags flags;
     protected PlayerParty party;
+    protected AudioService audio;
 
-    public virtual void Construct(DialogueRunner dialogue, StoryFlags flags, PlayerParty party)
+    public virtual void Construct(DialogueRunner dialogue, StoryFlags flags, PlayerParty party, AudioService audio)
     {
         this.dialogue = dialogue;
         this.flags = flags;
         this.party = party;
+        this.audio = audio;
         OnConstructed();
     }
 
@@ -32,6 +34,7 @@ public abstract class Npc : MonoBehaviour, IInteractable
         
         dialogue.Run(Talk());
     }
+    
 
     protected virtual IEnumerator Talk()
     {
@@ -39,20 +42,20 @@ public abstract class Npc : MonoBehaviour, IInteractable
     }
 
     // LOGIKA P4: Ganti Sprite sesuai arah
-    protected void Face(Vector2 d)
+    protected void Face(Vector2 direction)
     {
         if (body == null) return;
 
         // Cek apakah arah dominan Horizontal atau Vertikal
-        if (Mathf.Abs(d.x) > Mathf.Abs(d.y))
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
         {
             // Jika Player di kiri/kanan
-            body.sprite = d.x > 0 ? faceRight : faceLeft;
+            body.sprite = direction.x > 0 ? faceRight : faceLeft;
         }
         else
         {
             // Jika Player di atas/bawah
-            body.sprite = d.y > 0 ? faceUp : faceDown;
+            body.sprite = direction.y > 0 ? faceUp : faceDown;
         }
     }
 }

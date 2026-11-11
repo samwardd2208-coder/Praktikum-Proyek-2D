@@ -5,6 +5,19 @@ using UnityEngine.UI;
 public class TextMenu : MonoBehaviour
 {
     [SerializeField] private Text[] rows;
+    // Tambahkan:
+    private AudioService audio;
+    [SerializeField] private AudioClip moveClip;
+    [SerializeField] private AudioClip confirmClip;
+    [SerializeField] private AudioClip cancelClip;
+
+    public void Construct(AudioService audio) { this.audio = audio; }
+
+// Saat navigasi panah:
+    private void OnNavigate() => audio?.PlaySfx(moveClip);
+
+// Saat pilih (Picked event):
+    private void OnSelect() => audio?.PlaySfx(confirmClip);
     
     private string[] labels;
     private bool[] usable;

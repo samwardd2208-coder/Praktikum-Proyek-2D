@@ -14,6 +14,19 @@ public class PlayerMovement : MonoBehaviour
     public bool IsRunning => input != null && input.IsRunning;
     public void Construct(IMoveInput moveInput) => input = moveInput;
 
+    // BARU: pindahkan pemain (Lanjutkan dari save, kembali ke Batu Simpan, dll.)
+    public void Teleport(Vector2 position, Vector2 facing)
+    {
+        velocity = Vector2.zero;
+        transform.position = position;
+        if (rb != null)
+        {
+            rb.position = position;
+            rb.linearVelocity = Vector2.zero;
+        }
+        Facing = facing;
+    }
+
     void Update()
     {
         if (input == null) return;
@@ -24,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
         velocity = move * speed;
 
         // Tambahan untuk mengunci arah hadap kardinal (Atas, Bawah, Kiri, Kanan)
-        if (move.sqrMagnitude > 0.01f) 
+        if (move.sqrMagnitude > 0.01f)
             Facing = ToCardinal(move);
     }
 

@@ -2187,6 +2187,9 @@ MonoBehaviour:
   - {fileID: 23331196}
   - {fileID: 1382822333}
   - {fileID: 1084176406}
+  moveClip: {fileID: 0}
+  confirmClip: {fileID: 0}
+  cancelClip: {fileID: 0}
 --- !u!1 &1048721863
 GameObject:
   m_ObjectHideFlags: 0
@@ -2875,6 +2878,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1422668725}
   m_CullTransparentMesh: 1
+--- !u!1 &1436182953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1436182955}
+  - component: {fileID: 1436182954}
+  m_Layer: 0
+  m_Name: BattleAudio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1436182954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436182953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc41d34e80fa0c445bd0b558ef281012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleAudio
+  hitClip: {fileID: 8300000, guid: ea2a72ba3c34f394590a6e48e8c58809, type: 3}
+  hitCriticalClip: {fileID: 8300000, guid: 650c8b547cbc8a6468114146f596fd0b, type: 3}
+  missClip: {fileID: 8300000, guid: 17bbf98a4a46f934b8339f37f8dfe305, type: 3}
+  levelUpClip: {fileID: 8300000, guid: 10983b1b994e4a54fa179c72658fa822, type: 3}
+  evolveClip: {fileID: 8300000, guid: d2e4c010a36d6f3449ce5fa6e1035b71, type: 3}
+  victoryJingleClip: {fileID: 8300000, guid: c6d1a4ffc1174fa47919dd40d6beb457, type: 3}
+  faintClip: {fileID: 8300000, guid: e43c089c0c8e91f42bcd2a9f00e16045, type: 3}
+--- !u!4 &1436182955
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436182953}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 503.7243, y: 155.17044, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1795560969
 GameObject:
   m_ObjectHideFlags: 0
@@ -2908,6 +2962,8 @@ MonoBehaviour:
   forestBackground: {fileID: 21300000, guid: c218f5d6fa73bf94596564dcd990a43a, type: 3}
   caveBackground: {fileID: 21300000, guid: 12b0df4f0ed0d3e45b17910dea9c3853, type: 3}
   background: {fileID: 1304236058}
+  battleMusic: {fileID: 8300000, guid: 774cf03146d729141bd0e9693539385e, type: 3}
+  bossMusic: {fileID: 8300000, guid: 26284bd94f510334dac07fc85e5ab1f6, type: 3}
 --- !u!4 &1795560971
 Transform:
   m_ObjectHideFlags: 0
@@ -3415,3 +3471,4 @@ SceneRoots:
   - {fileID: 623017423}
   - {fileID: 998659835}
   - {fileID: 599688132}
+  - {fileID: 1436182955}

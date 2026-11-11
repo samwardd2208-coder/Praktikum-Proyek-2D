@@ -6,16 +6,25 @@ public class DialogueRunner : MonoBehaviour
 {
     [SerializeField] private DialogueView view;
     
+    // BARU: Audio SFX
+    [SerializeField] private AudioClip blipClip;
+    [SerializeField] private AudioClip uiMoveClip;
+    [SerializeField] private AudioClip confirmClip;
+    [SerializeField] private AudioClip cancelClip;
+
     private InputGate gate;
+    private AudioService audio;  // BARU
     private bool isRunning;
     private int picked;
     private bool clicked;
 
     public bool IsRunning => isRunning;
 
-    public void Construct(InputGate inputGate)
+    // DIPERBARUI: Tambah parameter AudioService
+    public void Construct(InputGate inputGate, AudioService audio = null)
     {
         gate = inputGate;
+        this.audio = audio;
     }
 
     // --- LANGKAH 1: RUN & RUN ROUTINE ---
@@ -30,17 +39,13 @@ public class DialogueRunner : MonoBehaviour
     private IEnumerator RunRoutine(IEnumerator sequence)
     {
         isRunning = true;
-        gate.Lock(); // Kunci pemain agar tidak bisa jalan
-        
-        yield return null; // Lewati frame pertama (abaikan tombol pembuka)
+        gate.Lock();
+        yield return null;
         clicked = false;
-        
-        yield return sequence; // Jalankan urutan dialog
-        
+        yield return sequence;
         view.Hide();
-        yield return null; // Cegah dialog terbuka lagi di frame yang sama
-        
-        gate.Unlock(); // Buka kunci pemain
+        yield return null;
+        gate.Unlock();
         isRunning = false;
     }
 
@@ -60,17 +65,12 @@ public class DialogueRunner : MonoBehaviour
     public IEnumerator Choose(string speaker, string prompt, string[] options, Action<int> result)
     {
         view.Show(false);
-        // Ketik prompt, tapi TIDAK menampilkan tanda panah (false) karena akan ada pilihan
-        yield return TypeLine(speaker, prompt, false); 
-        
+        yield return TypeLine(speaker, prompt, false);
         picked = -1;
-        view.ShowChoices(options); // Munculkan TextMenu/Buttons pilihan
-        
-        // Tunggu sampai pemain memilih salah satu
-        yield return new WaitUntil(() => picked >= 0); 
-        
+        view.ShowChoices(options);
+        yield return new WaitUntil(() => picked >= 0);
         view.HideChoices();
-        result?.Invoke(picked); // Kirim hasil pilihan ke pemanggil
+        result?.Invoke(picked);
     }
 
     // --- HELPER: EFEK MENGETIK & SKIP ---
@@ -79,32 +79,28 @@ public class DialogueRunner : MonoBehaviour
         view.SetSpeaker(speaker);
         view.SetBodyText("");
         view.ShowContinueHint(false);
-        
+
         bool textComplete = false;
-        
-        // Mulai animasi mengetik
-        Coroutine typing = StartCoroutine(TypeText(text, () => 
+        Coroutine typing = StartCoroutine(TypeText(text, () =>
         {
             textComplete = true;
             if (showContinueHint) view.ShowContinueHint(true);
         }));
-        
-        // Loop untuk mendeteksi tombol SKIP
+
         while (!textComplete)
         {
             if (AdvancePressed())
             {
-                if (typing != null) StopCoroutine(typing); // Hentikan animasi ketik
-                view.SetBodyText(text); // Tampilkan teks penuh
+                if (typing != null) StopCoroutine(typing);
+                view.SetBodyText(text);
                 textComplete = true;
                 if (showContinueHint) view.ShowContinueHint(true);
                 break;
             }
             yield return null;
         }
-        
-        // Tunggu pemain menekan tombol lagi untuk lanjut ke dialog berikutnya
-        clicked = false; 
+
+        clicked = false;
         yield return new WaitUntil(() => AdvancePressed());
     }
 
@@ -113,23 +109,46 @@ public class DialogueRunner : MonoBehaviour
         for (int i = 0; i < text.Length; i++)
         {
             view.SetBodyText(view.GetBodyText() + text[i]);
-            yield return new WaitForSeconds(0.018f); // Kecepatan ketik
+            
+            // BARU: Mainkan SFX blip saat mengetik
+            if (!char.IsWhiteSpace(text[i]) && !char.IsPunctuation(text[i]))
+            {
+                PlayBlip();
+            }
+            
+            yield return new WaitForSeconds(0.018f);
         }
         onComplete?.Invoke();
     }
 
-    // Cek apakah pemain menekan tombol lanjut (Klik mouse, E, Spasi, atau Enter)
     private bool AdvancePressed()
     {
-        // Kita pakai MenuInput.Confirm dari P5 agar lebih rapi!
-        bool pressed = clicked || MenuInput.Confirm; 
+        bool pressed = clicked || MenuInput.Confirm;
         clicked = false;
         return pressed;
     }
 
-    // Dipanggil oleh Button UI saat pilihan diklik
     public void OnChoicePicked(int index) { picked = index; }
-    
-    // Dipanggil oleh ClickCatcher (Button) saat layar diklik
     public void OnClick() { clicked = true; }
+
+    // --- BARU: Audio Helpers ---
+    private void PlayBlip()
+    {
+        if (audio != null && blipClip != null) audio.PlaySfx(blipClip, 0.1f);
+    }
+
+    public void PlayUiMove()
+    {
+        if (audio != null && uiMoveClip != null) audio.PlaySfx(uiMoveClip);
+    }
+
+    public void PlayConfirm()
+    {
+        if (audio != null && confirmClip != null) audio.PlaySfx(confirmClip);
+    }
+
+    public void PlayCancel()
+    {
+        if (audio != null && cancelClip != null) audio.PlaySfx(cancelClip);
+    }
 }
