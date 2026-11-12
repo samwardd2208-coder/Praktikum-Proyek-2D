@@ -4,78 +4,95 @@ using UnityEngine.UI;
 public class PartnerHud : MonoBehaviour
 {
     [Header("Partner Panel")]
+    [Tooltip("Panel_Background. Kosongkan jika ingin otomatis memakai parent dari Portrait.")]
+    [SerializeField] private GameObject partnerPanel;
     [SerializeField] private Text nameText;
     [SerializeField] private Text levelText;
     [SerializeField] private Image hpFill;
     [SerializeField] private Text hpText;
-    [SerializeField] private Image expFill; // TAMBAHAN: Bar EXP
+    [SerializeField] private Image expFill;
     [SerializeField] private Image portrait;
 
     [Header("Area Panel")]
-    [SerializeField] private Text areaText;   // TAMBAHAN: Nama Area
+    [SerializeField] private Text areaText;
     [SerializeField] private Text potionText;
 
     private PlayerParty party;
 
     public void Construct(PlayerParty party)
     {
-        Debug.Log("✅ PartnerHud.Construct() DIPANGGIL!"); // TAMBAHKAN INI
+        // Lepas langganan lama kalau Construct dipanggil lagi (mis. setelah kembali dari battle)
+        Unsubscribe();
+
         this.party = party;
         party.PartyChanged += UpdateDisplay;
         party.PotionsChanged += UpdatePotions;
-        
+
         UpdateDisplay();
         UpdatePotions();
-        Debug.Log($"✅ Name Text: {nameText?.text}");
-        Debug.Log($"✅ HP Fill: {hpFill?.fillAmount}");
-        Debug.Log($"✅ Area Text: {areaText?.text}");
     }
 
-    // Panggil method ini dari WorldInstaller untuk set nama area
+    // Panggil dari WorldInstaller untuk mengatur nama area
     public void SetAreaName(string areaName)
     {
         if (areaText != null) areaText.text = areaName;
     }
 
+    // Panel partner: tampil hanya kalau pemain sudah punya partner.
+    private GameObject PanelObject
+    {
+        get
+        {
+            if (partnerPanel != null) return partnerPanel;
+            if (portrait != null && portrait.transform.parent != null)
+                return portrait.transform.parent.gameObject;
+            return null;
+        }
+    }
+
     private void UpdateDisplay()
     {
-        if (party.Partner == null) return;
-        
-        if (nameText != null) nameText.text = party.Partner.Data.DisplayName;
-        if (levelText != null) levelText.text = $"Lv {party.Partner.Level}";
-        if (portrait != null) portrait.sprite = party.Partner.Data.Frames[0];
-        
-        // Update HP
-        float hpRatio = party.Partner.MaxHP > 0 
-            ? (float)party.Partner.CurrentHP / party.Partner.MaxHP : 0;
+        if (party == null) return;
+
+        MonsterInstance p = party.Partner;
+
+        GameObject panel = PanelObject;
+        if (panel != null) panel.SetActive(p != null);     // sembunyikan placeholder "New Text"
+        if (p == null) return;
+
+        if (nameText != null) nameText.text = p.Data.DisplayName;
+        if (levelText != null) levelText.text = $"Lv {p.Level}";
+        if (portrait != null) portrait.sprite = p.Data.Frames[0];
+
+        // HP
+        float hpRatio = p.MaxHP > 0 ? (float)p.CurrentHP / p.MaxHP : 0f;
         if (hpFill != null)
         {
             hpFill.fillAmount = hpRatio;
             hpFill.color = HpColors.For(hpRatio);
         }
-        if (hpText != null) hpText.text = $"{party.Partner.CurrentHP}/{party.Partner.MaxHP}";
-        
-        // Update EXP (Sederhana: Level * 10 adalah max exp saat ini)
+        if (hpText != null) hpText.text = $"{p.CurrentHP}/{p.MaxHP}";
+
+        // EXP: sekarang MonsterInstance punya Exp dan ExpToNext
         if (expFill != null)
         {
-            // Karena di MonsterInstance belum ada property 'CurrentExp', 
-            // kita anggap 0 dulu atau bisa ditambahkan logika EXP nanti.
-            // Untuk sekarang, biarkan 0 atau isi manual untuk tes.
-            expFill.fillAmount = 0f; 
+            expFill.fillAmount = p.ExpToNext > 0
+                ? Mathf.Clamp01((float)p.Exp / p.ExpToNext) : 0f;
         }
     }
 
     private void UpdatePotions()
     {
+        if (party == null) return;
         if (potionText != null) potionText.text = $"Ramuan ×{party.Potions}";
     }
 
-    void OnDestroy()
+    private void Unsubscribe()
     {
-        if (party != null)
-        {
-            party.PartyChanged -= UpdateDisplay;
-            party.PotionsChanged -= UpdatePotions;
-        }
+        if (party == null) return;
+        party.PartyChanged -= UpdateDisplay;
+        party.PotionsChanged -= UpdatePotions;
     }
+
+    void OnDestroy() => Unsubscribe();
 }
